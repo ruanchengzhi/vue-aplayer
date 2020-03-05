@@ -18,8 +18,8 @@ module.exports = {
         include: [path.resolve(__dirname, 'src')],
         options: {
           formatter: require('eslint-friendly-formatter'),
-          emitWarning: true,
-        },
+          emitWarning: true
+        }
       },
       {
         test: /\.vue$/,
@@ -27,9 +27,9 @@ module.exports = {
         options: {
           loaders: {
             js: 'babel-loader?babelrc',
-            scss: 'style-loader!css-loader!postcss-loader!sass-loader',
-          },
-        },
+            scss: 'style-loader!css-loader!postcss-loader!sass-loader'
+          }
+        }
       },
       {
         test: /\.js$/,
@@ -38,52 +38,38 @@ module.exports = {
       },
       {
         test: /\.(png|jpg)$/,
-        loader: 'url-loader?limit=40000',
+        loader: 'url-loader?limit=40000'
       },
       {
         test: /\.svg$/,
-        loader: 'svg-inline-loader',
+        loader: 'svg-inline-loader'
       },
       {
         test: /\.html$/,
-        loader: 'vue-html-loader',
-      },
-    ],
+        loader: 'vue-html-loader'
+      }
+    ]
   },
   devtool: '#eval-source-map',
   devServer: {
     contentBase: path.resolve(__dirname, 'demo'),
     compress: true,
     port: 3000,
-    disableHostCheck: true,
-    proxy: {
-      '/aplayer': {
-        target: 'https://cn-east-17-aplayer-35525609.oss.dogecdn.com/',
-        secure: false,
-        changeOrigin: true,
-        headers: {
-          host: 'vue-aplayer.js.org',
-          Referer: 'https://vue-aplayer.js.org/',
-        },
-        pathRewrite (path) {
-          return path.replace(/^\/aplayer/, '')
-        },
-      },
-    },
+    disableHostCheck: true
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'src/demo/index.html',
-      favicon: 'src/demo/favicon.ico',
+      favicon: 'src/demo/favicon.ico'
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: `"${process.env.NODE_ENV}"`,
+        NODE_ENV: `"${process.env.NODE_ENV}"`
       },
-      VERSION: JSON.stringify(require("./package.json").version),
+      VERSION: JSON.stringify(require("./package.json").version)
     }),
-  ],
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -93,8 +79,8 @@ if (process.env.NODE_ENV === 'production') {
   module.exports.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: false,
+        warnings: false
       },
-    }),
+    })
   )
 }

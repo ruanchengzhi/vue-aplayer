@@ -2,9 +2,9 @@
   <div
     class="aplayer"
     :class="{
-      'aplayer-mini': mini,
-      'aplayer-withlist' : !mini && musicList.length > 0,
-      'aplayer-withlrc': !mini && (!!$slots.display || showLrc),
+      'aplayer-narrow': isMiniMode,
+      'aplayer-withlist' : !isMiniMode && musicList.length > 0,
+      'aplayer-withlrc': !isMiniMode && (!!$slots.display || shouldShowLrc),
       'aplayer-float': isFloatMode,
       'aplayer-loading': isPlaying && isLoading
     }"
@@ -20,13 +20,13 @@
         @dragbegin="onDragBegin"
         @dragging="onDragAround"
       />
-      <div class="aplayer-info" v-show="!mini">
+      <div class="aplayer-info" v-show="!isMiniMode">
         <div class="aplayer-music">
           <span class="aplayer-title">{{ currentMusic.title || 'Untitled' }}</span>
-          <span class="aplayer-author">{{ currentMusic.artist || 'Unknown' }}</span>
+          <span class="aplayer-author">{{ currentMusic.artist || currentMusic.author || 'Unknown' }}</span>
         </div>
         <slot name="display" :current-music="currentMusic" :play-stat="playStat">
-          <lyrics :current-music="currentMusic" :play-stat="playStat" v-if="showLrc" />
+          <lyrics :current-music="currentMusic" :play-stat="playStat" v-if="shouldShowLrc" />
         </slot>
         <controls
           :shuffle="shouldShuffle"
@@ -48,11 +48,11 @@
     </div>
     <audio ref="audio"></audio>
     <music-list
-      :show="showList && !mini"
+      :show="showList && !isMiniMode"
       :current-music="currentMusic"
       :music-list="musicList"
       :play-index="playIndex"
-      :listmaxheight="listMaxHeight"
+      :listmaxheight="listmaxheight || listMaxHeight"
       :theme="currentTheme"
       @selectsong="onSelectSong"
     />
@@ -102,7 +102,13 @@
         type: Object,
         required: true,
         validator (song) {
-          return !!song.src
+          if (song.url) {
+            deprecatedProp('music.url', '1.4.0', 'music.src')
+          }
+          if (song.author) {
+            deprecatedProp('music.author', '1.4.1', 'music.artist')
+          }
+          return song.src || song.url
         },
       },
       list: {
@@ -219,6 +225,61 @@
         type: String,
         default: REPEAT.NO_REPEAT,
       },
+
+
+      // deprecated props
+
+      /**
+       * @deprecated since 1.1.2, use listMaxHeight instead
+       */
+      listmaxheight: {
+        type: String,
+        validator (value) {
+          if (value) {
+            deprecatedProp('listmaxheight', '1.1.2', 'listMaxHeight')
+          }
+          return true
+        },
+      },
+      /**
+       * @deprecated since 1.1.2, use mini instead
+       */
+      narrow: {
+        type: Boolean,
+        default: false,
+        validator (value) {
+          if (value) {
+            deprecatedProp('narrow', '1.1.2', 'mini')
+          }
+          return true
+        },
+      },
+      /**
+       * @deprecated since 1.2.2
+       */
+      showlrc: {
+        type: Boolean,
+        default: false,
+        validator (value) {
+          if (value) {
+            deprecatedProp('showlrc', '1.2.2', 'showLrc')
+          }
+          return true
+        },
+      },
+      /**
+       * @deprecated and REMOVED since 1.5.0
+       */
+      // mode: {
+      //   type: String,
+      //   default: 'circulation',
+      //   validator (value) {
+      //     if (value) {
+      //       deprecatedProp('mode', '1.5.0', 'shuffle and repeat')
+      //     }
+      //     return true
+      //   }
+      // },
     },
     data () {
       return {
@@ -286,6 +347,13 @@
           this.internalMusic = val
         },
       },
+      // compatible for deprecated props
+      isMiniMode () {
+        return this.mini || this.narrow
+      },
+      shouldShowLrc () {
+        return this.showLrc || this.showlrc
+      },
 
       // props wrappers
 
@@ -305,7 +373,7 @@
       shouldShowNativeControls () {
         return process.env.NODE_ENV !== 'production' &&
           this.controls &&
-          !this.mini
+          !this.isMiniMode
       },
 
       // useful
@@ -677,7 +745,7 @@
 
 
         if (this.currentMusic) {
-          this.audio.src = this.currentMusic.src
+          this.audio.src = this.currentMusic.src || this.currentMusic.url
         }
       },
 
@@ -713,7 +781,7 @@
           // async
           this.setSelfAdaptingTheme()
 
-          const src = music.src
+          const src = music.src || music.url
           // HLS support
           if (/\.m3u8(?=(#|\?|$))/.test(src)) {
             if (this.audio.canPlayType('application/x-mpegURL') || this.audio.canPlayType('application/vnd.apple.mpegURL')) {
@@ -876,7 +944,7 @@
     }
 
     // Mini mode
-    &.aplayer-mini {
+    &.aplayer-narrow {
       width: $aplayer-height;
     }
 

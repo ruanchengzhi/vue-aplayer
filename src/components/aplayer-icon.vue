@@ -35,7 +35,6 @@
             transform: 'rotate(180deg)',
           }
         }
-        return {}
       }
     }
   }

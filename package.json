@@ -1,6 +1,6 @@
 {
   "name": "vue-aplayer",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Easy-to-use music player for Vue 2.x",
   "main": "dist/vue-aplayer.min.js",
   "files": [
@@ -45,42 +45,36 @@
     "vue": "^2.5.16"
   },
   "devDependencies": {
-    "autoprefixer": "9.6.1",
-    "babel-core": "6.26.3",
-    "babel-eslint": "10.0.2",
-    "babel-loader": "8.0.6",
-    "babel-preset-env": "1.7.0",
-    "babel-preset-stage-2": "6.24.1",
-    "css-loader": "2.1.1",
-    "cz-conventional-changelog": "2.1.0",
-    "eslint": "5.16.0",
-    "eslint-friendly-formatter": "4.0.1",
-    "eslint-loader": "2.2.1",
-    "eslint-plugin-vue": "5.2.3",
-    "file-loader": "3.0.1",
-    "hls.js": "0.12.4",
-    "html-webpack-plugin": "3.2.0",
-    "node-sass": "4.12.0",
-    "postcss-loader": "3.0.0",
-    "sass-loader": "7.2.0",
-    "style-loader": "0.23.1",
-    "svg-inline-loader": "0.8.0",
-    "url-loader": "1.1.2",
-    "vue": "2.6.10",
-    "vue-html-loader": "1.2.4",
-    "vue-loader": "15.7.1",
-    "vue-template-compiler": "2.6.10",
-    "webpack": "4.39.2",
-    "webpack-dev-server": "3.8.0"
+    "autoprefixer": "^8.1.0",
+    "babel-core": "^6.18.2",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "css-loader": "^0.28.10",
+    "eslint": "^4.18.2",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-vue": "^4.3.0",
+    "file-loader": "^1.1.11",
+    "hls.js": "^0.9.1",
+    "html-webpack-plugin": "^3.0.6",
+    "node-sass": "^4.5.0",
+    "postcss-loader": "^2.1.1",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.2",
+    "svg-inline-loader": "^0.8.0",
+    "url-loader": "^1.0.1",
+    "vue": "^2.5.16",
+    "vue-html-loader": "^1.2.4",
+    "vue-loader": "^14.2.1",
+    "vue-template-compiler": "^2.5.13",
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.2"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ],
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  }
+  ]
 }
