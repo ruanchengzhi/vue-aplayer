@@ -878,7 +878,7 @@
   @import "./scss/variables";
 
   .aplayer {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #000;
     background-color: #fff;
     margin: 5px;

@@ -10,7 +10,7 @@
     />
     <div class="aplayer-time">
       <div class="aplayer-time-inner">
-        - <span class="aplayer-ptime">{{secondToTime(stat.playedTime)}}</span> / <span
+        <span class="aplayer-ptime">{{secondToTime(stat.playedTime)}}</span> / <span
         class="aplayer-dtime">{{secondToTime(stat.duration)}}</span>
       </div>
       <volume
@@ -23,12 +23,14 @@
       />
       <icon-button
         class="aplayer-icon-mode"
+        v-if="showMode"
         icon="shuffle"
         :class="{ 'inactive': !shuffle }"
         @click.native="$emit('toggleshuffle')"
       />
       <icon-button
         class="aplayer-icon-mode"
+         v-if="showMode"
         :icon="repeat === 'repeat-one' ? 'repeat-one' : 'repeat-all'"
         :class="{ 'inactive': repeat === 'no-repeat'}"
         @click.native="$emit('nextmode')"
@@ -64,6 +66,11 @@
         if (this.stat.duration === 0) return 0
         return this.stat.playedTime / this.stat.duration
       },
+    },
+    data (){
+      return {
+        showMode: false
+      }
     },
     methods: {
       secondToTime (second) {
